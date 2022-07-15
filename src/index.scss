@@ -4,8 +4,8 @@ $primary: #FFD166;
 $secondary: #6694FF;
 $light1: #FFFFFF;
 $light2: #DCDEE1;
-$dark1: #1C2129;
-$dark2: #232A33;
+$dark1: hsl(215, 19%, 14%);
+$dark2: hsl(215, 19%, 17%);
 
 * {
 	margin: 0;
@@ -17,13 +17,21 @@ $dark2: #232A33;
 .btn{
 	padding: 8px 14px;
 	cursor: pointer;
-	background-color: $primary;
+	background-color: $secondary;
 	color: $dark1;
 	font-weight: bold;
 	font-size: 16px;
 	border: none;
 	border-radius: 5px;
 	outline: 4px transparent solid;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	i{
+		font-size: 20px;
+		margin-left: 5px;
+	}
 }
 
 .btn:hover{
@@ -31,7 +39,15 @@ $dark2: #232A33;
 }
 
 .btn:focus{
-	outline-color: rgba($primary, .2);
+	outline-color: rgba($secondary, .2);
+}
+
+.btn.red{
+	background-color: #FF6666;
+}
+
+.btn.red:focus{
+	outline-color: rgba(#FF6666, .2);
 }
 
 .App{
@@ -43,6 +59,7 @@ $dark2: #232A33;
 	padding: 40px;
 	width: 600px;
 	height: 100vh;
+	transition: transform .3s;
 
 	.header{
 		display: flex;
@@ -120,7 +137,7 @@ $dark2: #232A33;
 			margin-top: 20px;
 
 			span{
-				color: $primary;
+				color: $secondary;
 			}
 		}
 
@@ -152,7 +169,7 @@ $dark2: #232A33;
 			cursor: pointer;
 
 			span{
-				color: $primary;
+				color: $secondary
 			}
 		}
 
@@ -178,7 +195,7 @@ $dark2: #232A33;
 			}
 
 			.check{
-				width: 32px;
+				min-width: 32px;
 				height: 32px;
 				line-height: 16px;
 				font-size: 22px;
@@ -220,11 +237,21 @@ $dark2: #232A33;
 				}
 
 				.edit{
-					background-color: #6694FF;
+					background-color: $secondary;
+					outline: 4px transparent solid;
+				}
+
+				.edit:focus{
+					outline-color: rgba($secondary, .2);
 				}
 
 				.delete{
 					background-color: #FF6666;
+					outline: 4px transparent solid;
+				}
+
+				.delete:focus{
+					outline-color: rgba(#FF6666, .2);
 				}
 			}
 		}
@@ -238,6 +265,107 @@ $dark2: #232A33;
 				background-color: $primary;
 				color: $dark1;
 				font-weight: bold;
+			}
+		}
+	}
+}
+
+.close, .burger{
+	border: none;
+	background-color: transparent;
+	font-size: 32px;
+	line-height: 8px;
+	color: $light1;
+	display: none;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 1400px){
+	.sidebar{
+		width: 500px;
+
+		.title{
+			font-size: 20px !important;
+		}
+
+		.item{
+			font-size: 14px !important;
+		
+			button{
+				font-size: 14px !important;
+			}
+		}
+
+		.add-new{
+			font-size: 14px !important;
+		}
+	}
+
+	.board{
+		width: calc(100% - 500px);
+
+		.header{
+			.title{
+				font-size: 32px;
+			}
+		}
+
+		.task{
+			p{
+				font-size: 16px !important;
+			}
+
+			button{
+				min-width: 24px !important;
+				width: 24px !important;
+				height: 24px !important;
+				font-size: 16px !important;
+				line-height: 14px !important;
+			}
+		}
+	}
+
+	.btn{
+		font-size: 14px !important;
+
+		i{
+			font-size: 16px !important;
+		}
+	}
+}
+
+@media screen and (max-width: 1000px){
+	.close, .burger{
+		display: block;
+	}
+
+	.sidebar{
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		transform: translateX(-100%);
+	}
+
+	.sidebar.active{
+		transform: translateX(0);
+	}
+
+	.board{
+		width: 100%;
+		height: 100vh;
+
+		.title{
+			font-size: 24px !important;
+		}
+
+		.add-new{
+			font-size: 16px !important;
+		}
+
+		.task{
+			p{
+				font-size: 14px !important;
 			}
 		}
 	}

@@ -1,9 +1,15 @@
 function Sidebar(){
+    const closeSidebar = () =>{
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.remove('active')
+    }
+    
     return(
         <div className="sidebar">
             <div className="header">
+                <button className="close" onClick={closeSidebar}><i className="bx bx-x"></i></button>
                 <a href="#" className="logo">TODO<span>APP</span></a>
-                <button className="btn auth-btn">SIGN IN</button>
+                <button className="btn red auth-btn">Person's name <i className="bx bx-log-out"></i></button>
             </div>
             <div className="boards">
                 <p className="title">Boards</p>
@@ -17,7 +23,7 @@ function Sidebar(){
                         <button>EDIT</button>
                     </div>
                 </div>
-                <a className="add-new"><span>+</span> Add new board</a>
+                <a className="add-new"><span><i className="bx bx-plus"></i></span> Add new board</a>
             </div>
         </div>
     );
