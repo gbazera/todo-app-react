@@ -16,22 +16,28 @@ function Sidebar(props) {
 		overlay.classList.toggle('active');
 	};
 
-	const navigate = useNavigate();
-	const { user, logOut } = UserAuth();
+	// const navigate = useNavigate();
+	// const { user, logOut } = UserAuth();
 
-	const handleSignOut = async () => {
-		try {
-			await logOut();
-		} catch (error) {
-			console.log(error);
-		}
+	// const handleSignOut = async () => {
+	// 	try {
+	// 		await logOut();
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	if (user == null) {
+	// 		navigate('/signin');
+	// 	}
+	// }, [user]);
+
+	const [inputText, setInputText] = useState('');
+
+	const handleInputText = (event) => {
+		setInputText(event.target.value);
 	};
-
-	useEffect(() => {
-		if (user == null) {
-			navigate('/signin');
-		}
-	}, [user]);
 
 	return (
 		<div className="sidebar">
@@ -41,18 +47,30 @@ function Sidebar(props) {
 					<i className="bx bx-x"></i>
 				</button>
 				<a href="#" className="logo">
-					TODO<span>APP</span>
+					<span>TASK</span>ER
 				</a>
-				<button onClick={handleSignOut} className="btn red auth-btn">
+				{/* <button onClick={handleSignOut} className="btn red auth-btn">
 					{user?.displayName} <i className="bx bx-log-out"></i>
-				</button>
+				</button> */}
 			</div>
 			<div className="boards">
 				<p className="title">Boards</p>
 				<div className="items">
-					{props.boards.map(board => (
-						<div className="item" key={board.id}>
-							<p>{ board.name }</p>
+					{props.boardList.map((board) => (
+						<div
+							className={
+								board.name ==
+								props.boardList[props.activeBoard].name
+									? 'item active'
+									: 'item'
+							}
+							key={board.id}
+							onClick={() => {
+								props.selectBoard(board.id);
+								closeSidebar();
+							}}
+						>
+							<p>{board.name}</p>
 							<button>
 								<i className="bx bxs-edit"></i>
 							</button>
@@ -75,16 +93,24 @@ function Sidebar(props) {
 							<i className="bx bx-x"></i>
 						</button>
 					</div>
-					<input
-						type="text"
-						name="boardName"
-						id="boardName"
-						placeholder="Type board name"
-						className="inp"
-					/>
-					<button className="btn" type="submit">
-						ADD
-					</button>
+					<form
+						onSubmit={(event) => {
+							props.createBoard(inputText);
+							event.preventDefault();
+						}}
+					>
+						<input
+							type="text"
+							name="boardName"
+							id="boardName"
+							placeholder="Type board name"
+							className="inp"
+							onChange={handleInputText}
+						/>
+						<button className="btn" type="submit">
+							ADD
+						</button>
+					</form>
 				</div>
 			</div>
 		</div>
