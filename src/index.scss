@@ -50,7 +50,7 @@ $dark2: hsl(215, 19%, 17%);
 	outline-color: rgba(#FF6666, .2);
 }
 
-.App{
+.home{
 	display: flex;
 }
 
@@ -151,6 +151,7 @@ $dark2: hsl(215, 19%, 17%);
 	width: calc(100% - 600px);
 	background-color: $dark2;
 	padding: 40px;
+	height: 100vh;
 
 	.header{
 		display: flex;
@@ -280,7 +281,53 @@ $dark2: hsl(215, 19%, 17%);
 	cursor: pointer;
 }
 
+.signin-panel{
+	background-color: $dark1;
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	.title{
+		color: $light1;
+		font-size: 64px;
+		font-weight: bold;
+		margin-bottom: 20px;
+
+		span{
+			color: $primary;
+		}
+	}
+
+	p:last-of-type{
+		color: $light2;
+		font-size: 24px;
+	}
+
+	button{
+		margin-top: 40px;
+
+		i{
+			margin-left: 0;
+			margin-right: 5px;
+			margin-bottom: 2px;
+		}
+	}
+}
+
 @media screen and (max-width: 1400px){
+	.signin-panel{
+		.title{
+			font-size: 48px;
+		}
+
+		p:last-of-type{
+			font-size: 16px;
+		}
+	}
+
 	.sidebar{
 		width: 500px;
 
@@ -335,6 +382,16 @@ $dark2: hsl(215, 19%, 17%);
 }
 
 @media screen and (max-width: 1000px){
+	.signin-panel{
+		.title{
+			font-size: 24px;
+		}
+
+		p:last-of-type{
+			font-size: 14px;
+		}
+	}
+
 	.close, .burger{
 		display: block;
 	}
