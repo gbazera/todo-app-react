@@ -1,4 +1,4 @@
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onSnapshot, collection, addDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
@@ -8,6 +8,14 @@ function Sidebar() {
 	const closeSidebar = () => {
 		const sidebar = document.querySelector('.sidebar');
 		sidebar.classList.remove('active');
+	};
+
+	const toggleNewBoardPanel = () =>{
+		const newBoardPanel = document.querySelector('.new-board-panel');
+		const overlay = document.querySelector('.overlay');
+
+		newBoardPanel.classList.toggle('active');
+		overlay.classList.toggle('active');
 	};
 
 	const navigate = useNavigate();
@@ -27,24 +35,41 @@ function Sidebar() {
 		}
 	}, [user]);
 
-    const [boards, setBoards] = useState([])
+	const [name, setName] = useState('');
 
-    const boardList = boards.map(usr => {
-        if(usr.id == user.uid){
-            return usr.boardList
-        }
-    });
+	const getBoardInputName = event =>{
+		setName(event.target.value);
+	}
 
-	useEffect(
-		() =>
-			onSnapshot(collection(firestore, 'boards'), (snapshot) => {
-				setBoards(snapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
-			}),
-		[]
-	);
+	const handleNewBoard = async() =>{
+		const collRef = collection(firestore, 'boards');
+		const payload = { name, userId: user.uid };
+		await addDoc(collRef, payload);
+		toggleNewBoardPanel();
+	}
+
+	const [boards, setBoards] = useState([]);
+
+	useEffect(()=>{
+		onSnapshot(collection(firestore, 'boards'), (snapshot)=>{
+			setBoards(snapshot.docs.map((doc) => doc.data()))
+		});
+	}, []);
+
+	const userBoards = [];
+	boards.map(board => {
+		if(board.userId == user.uid) userBoards.push(board);
+	}, []);
+
+	// const [activeBoard, setActiveBoard] = useState('');
+
+	// const handleSetActiveBoard = () =>{
+
+	// }
 
 	return (
 		<div className="sidebar">
+			<div className="overlay"></div>
 			<div className="header">
 				<button className="close" onClick={closeSidebar}>
 					<i className="bx bx-x"></i>
@@ -60,24 +85,30 @@ function Sidebar() {
 			</div>
 			<div className="boards">
 				<p className="title">Boards</p>
-                    {boardList.map(bs => (
-                        <div className="items" key={boardList.id}>
-                            {bs.map(b => (
-                                <div className="item" key={b.id}>
-                                    <p>{ b }</p>
-                                    <button>
-                                        <i className="bx bx-edit"></i>
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-				<a className="add-new">
+					<div className="items">
+						{userBoards.map(brd => (
+							<div className="item" key={brd}>
+								<p>{brd.name}</p>
+								<button>
+									<i className="bx bxs-edit"></i>
+								</button>
+							</div>
+						))}
+					</div>
+				<a className="add-new" onClick={toggleNewBoardPanel}>
 					<span>
 						<i className="bx bx-plus"></i>
 					</span>{' '}
 					Add new board
 				</a>
+				<div className="new-board-panel">
+					<div className='top'>
+						<p>Add new board</p>
+						<button className='btn red' onClick={toggleNewBoardPanel}><i className="bx bx-x"></i></button>
+					</div>
+					<input type="text" name="boardName" id="boardName" placeholder='Type board name' className='inp' onChange={getBoardInputName}/>
+					<button className="btn" type='submit' onClick={handleNewBoard}>ADD</button>
+				</div>
 			</div>
 		</div>
 	);
