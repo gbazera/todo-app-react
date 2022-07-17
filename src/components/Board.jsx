@@ -1,8 +1,21 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
+
 function Board(){
     const openSidebar = () =>{
         const sidebar = document.querySelector('.sidebar');
         sidebar.classList.add('active')
     }
+
+    const navigate = useNavigate();
+    const { user } = UserAuth();
+
+    useEffect(() => {
+		if (user == null) {
+			navigate('/signin');
+		}
+	}, [user]);
     
     return(
         <div className="board">
@@ -15,7 +28,7 @@ function Board(){
                 <div className="task active">
                     <div className="left">
                         <button className="check"><i className="bx bx-check"></i></button>
-                        <p>Task task task task task 1</p>
+                        <p>Task 1</p>
                     </div>
                     <div className="right">
                         <button className="edit"><i className="bx bx-edit"></i></button>
