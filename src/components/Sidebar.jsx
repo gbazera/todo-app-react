@@ -97,6 +97,7 @@ function Sidebar(props) {
 						onSubmit={(event) => {
 							props.createBoard(inputText);
 							event.preventDefault();
+							toggleNewBoardPanel();
 						}}
 					>
 						<input
