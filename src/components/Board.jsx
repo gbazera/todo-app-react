@@ -34,6 +34,10 @@ function Board(props) {
 		setInputText(event.target.value);
 	};
 
+	const clearInput = () => {
+		document.querySelector('#taskText').value = ''
+	}
+
 	return (
 		<div className="board">
 			<div className="header">
@@ -61,6 +65,7 @@ function Board(props) {
 					onSubmit={(event) => {
 						props.createTask(inputText);
 						event.preventDefault();
+						clearInput();
 						forceUpdate();
 						toggleNewTaskPanel();
 					}}

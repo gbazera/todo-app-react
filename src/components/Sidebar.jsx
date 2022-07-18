@@ -39,6 +39,10 @@ function Sidebar(props) {
 		setInputText(event.target.value);
 	};
 
+	const clearInput = () => {
+		document.querySelector('#boardName').value = ''
+	}
+
 	return (
 		<div className="sidebar">
 			<div className="overlay"></div>
@@ -96,6 +100,7 @@ function Sidebar(props) {
 					<form
 						onSubmit={(event) => {
 							props.createBoard(inputText);
+							clearInput();
 							event.preventDefault();
 							toggleNewBoardPanel();
 						}}

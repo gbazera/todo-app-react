@@ -6,28 +6,12 @@ function Home(){
     const [boardList, setBoardList] = useState([
         {
             id: 0,
-            name: 'My board 1',
+            name: 'My board',
             tasks: [
                 {
                     id: 0,
-                    text: 'This is my first task',
+                    text: 'My task',
                     completed: false
-                }
-            ]
-        },
-        {
-            id: 1,
-            name: 'Another board',
-            tasks: [
-                {
-                    id: 0,
-                    text: 'Task 1',
-                    completed: false
-                },
-                {
-                    id: 1,
-                    text: 'Task number 2',
-                    completed: true
                 }
             ]
         }
@@ -92,7 +76,7 @@ function Home(){
 
     const loadList = () =>{
         const list = localStorage.getItem('boardList')
-        updateList(JSON.parse(list))
+        if(list) updateList(JSON.parse(list))
     }
 
     useEffect(() => {
